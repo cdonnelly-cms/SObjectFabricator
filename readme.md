@@ -12,15 +12,16 @@ An SObject fabrication API to reduce database interactions and dependencies on t
   - public Id getIdAsId()
 
 e.g.
+
     ```
-        Account sObj = new Account ( Name = 'Foo' );
-        fabricatedSObject.set(sObj);
+    Account sObj = new Account ( Name = 'Foo' );
+    fabricatedSObject.set(sObj);
     ```
 
     ```
-        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
-        fab.setFakeId('N', 1);
-        System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
+    sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+    fab.setFakeId('N', 1);
+    System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
     ```
 
 ## Motivation
