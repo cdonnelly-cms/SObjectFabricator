@@ -16,6 +16,7 @@ e.g.
 ```java
 Account sObj = new Account ( Name = 'Foo' );
 fabricatedSObject.set(sObj);
+System.assertEquals( 'Foo', fabricatedSObject.getFieldValue( 'Name' ) );
 ````
 
 ```java
