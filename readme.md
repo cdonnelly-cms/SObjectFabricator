@@ -1,13 +1,27 @@
 # SObjectFabricator
 
-Changes - added public methods:
-- public sfab_FabricatedSObject set( SObject sObj )
-- public sfab_FabricatedSObject setFakeId( string textChars, Integer index)
-- public Id getIdAsId()
-
 [![Deploy to Salesforce](https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png)](https://githubsfdeploy.herokuapp.com?owner=mattaddy&repo=SObjectFabricator)
 
 An SObject fabrication API to reduce database interactions and dependencies on triggers in Apex unit tests. It includes the ability to fabricate system and formula fields, rollup summaries, and child relationships. Strongly inspired by [Stephen Willcock](https://github.com/stephenwillcock)'s [Dreamforce presentation](https://www.youtube.com/watch?v=dWertK6Legc) on Tests and Testability in Apex.
+
+# Changes in this fork
+- sfdx project
+- added public methods:
+  - public sfab_FabricatedSObject set( SObject sObj )
+  - public sfab_FabricatedSObject setFakeId( string textChars, Integer index)
+  - public Id getIdAsId()
+
+e.g.
+    ```
+        Account sObj = new Account ( Name = 'Foo' );
+        fabricatedSObject.set(sObj);
+    ```
+
+    ```
+        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+        fab.setFakeId('N', 1);
+        System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
+    ```
 
 ## Motivation
 
