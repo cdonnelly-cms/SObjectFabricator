@@ -274,6 +274,33 @@ private class sfab_FabricatedSObjectTest {
         System.assertEquals( 2, fabricatedSObject.getParent('Account').getNumberOfChildren('Contacts') );
     }
 
+    @isTest private static void toFakeId_test() {
+        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+        Id cId = fab.toFakeId('N', 1);
+        System.AssertEquals('0030000000000N1', cId, 'unexpected contact id');
+    }
+
+    @isTest private static void toFakeId_cleanChars_test() {
+        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+        Id cId = fab.toFakeId('N N ', 12345);
+        System.AssertEquals('00300000NN12345', cId, 'unexpected contact id');
+    }
+
+    @isTest private static void toFakeId_null_test() {
+        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+        Id cId = fab.toFakeId(null, null);
+        System.AssertEquals('003000000000000', cId, 'unexpected contact id');
+    }
+
+    @isTest private static void setGetId_test() {
+        sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
+        fab.setFakeId('N', 1);
+        System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
+    }
+
+
+
+
     @isTest
     private static void addChild_expectObjectsAdded() {
         sfab_FabricatedSObject fabricatedSObject = new sfab_FabricatedSObject(Account.class);
@@ -808,7 +835,7 @@ private class sfab_FabricatedSObjectTest {
     }
 
     @isTest private static void getIdAsId_happy() {
-        
+
     }
 
     @isTest
