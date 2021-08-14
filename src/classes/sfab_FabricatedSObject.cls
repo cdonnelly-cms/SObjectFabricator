@@ -490,7 +490,7 @@ public virtual class sfab_FabricatedSObject {
     }
 
     /** helper method  */
-    @testVisible private Id toFakeId( string textChars, Integer index) { // TODO test
+    @testVisible private Id toFakeId( string textChars, Integer index) {
 
         return sObjType.getDescribe().getKeyPrefix() 
             + (   (String.isBlank(textChars) ? '' : textChars.replaceAll(' ', ''))
@@ -501,13 +501,13 @@ public virtual class sfab_FabricatedSObject {
     }
 
     /** Shortcut method to set a fake Id that has the correct 3 character prefix and can be cast to an Id */
-    public sfab_FabricatedSObject setFakeId( string textChars, Integer index) { // TODO test
+    public sfab_FabricatedSObject setFakeId( string textChars, Integer index) {
         set('Id', toFakeId(textChars, index));
         return this;
     }
 
     /** Shortcut method to return set field value. Warning will throw if not a valid Id. */
-    public Id getIdAsId() { return (Id)getFieldValue('Id'); } // TODO test
+    public Id getIdAsId() { return (Id)getFieldValue('Id'); }
 
     /**
     * Made public for use it setting Ids | Craig 2021-07-24
