@@ -478,11 +478,11 @@ public virtual class sfab_FabricatedSObject {
     }
 
     /**
-    * Internal method that should not be called directly.
+    * Made public for use it setting Ids | Craig 2021-07-24
     * Gets the field value of the specified field.
     */
     @testVisible
-    private Object getFieldValue( String fieldName ) {
+    public Object getFieldValue( String fieldName ) {
         return getFieldNode( fieldName )?.getValue();
     }
 
