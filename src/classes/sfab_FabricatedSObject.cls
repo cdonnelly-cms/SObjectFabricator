@@ -1,3 +1,7 @@
+/** Reduces database interactions and dependencies on triggers in Apex unit tests
+ *  See https://github.com/cdonnelly-cms/SObjectFabricator
+ *  Forked from https://github.com/mattaddy/SObjectFabricator
+ */
 public virtual class sfab_FabricatedSObject {
 
     private final Type sType;
