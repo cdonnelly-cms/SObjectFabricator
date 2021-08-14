@@ -807,6 +807,10 @@ private class sfab_FabricatedSObjectTest {
         System.assert( exceptionMessage.contains( 'Could not auto-assign an object for the field Owner' ), 'set, when field does not exist, will throw an exception with a useful message (got "' + exceptionMessage + '")' );
     }
 
+    @isTest private static void getIdAsId_happy() {
+        
+    }
+
     @isTest
     private static void toSObject_whenBlobSetOnContentVersion_expectBlobValueSet() {
         sfab_FabricatedSObject fabricated = new sfab_FabricatedSObject( ContentVersion.class );

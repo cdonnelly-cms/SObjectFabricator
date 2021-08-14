@@ -1,6 +1,7 @@
 public virtual class sfab_FabricatedSObject {
 
-    private Type sType;
+    private final Type sType;
+    private final SObjectType sObjType;
     @testVisible private Map<String,sfab_FabricatedSObjectNode> nodes = new Map<String,sfab_FabricatedSObjectNode>();
 
     sfab_ObjectDescriber objectDescriber = new sfab_ObjectDescriber();
@@ -28,6 +29,7 @@ public virtual class sfab_FabricatedSObject {
     */
     public sfab_FabricatedSObject( Type sType ) {
         this.sType = sType;
+        this.sObjType = ((SObject)sType.newInstance()).getSObjectType();
     }
 
     /**
@@ -62,7 +64,7 @@ public virtual class sfab_FabricatedSObject {
 
     @testVisible
     protected sfab_FabricatedSObject( Type sType, List<sfab_FabricatedSObjectNode> nodes ) {
-        this.sType = sType;
+        this(sType);
         this.nodes = new Map<String,sfab_FabricatedSObjectNode>();
         for ( sfab_FabricatedSObjectNode node : nodes ) {
             setNode( node.getName(), node );
@@ -175,7 +177,7 @@ public virtual class sfab_FabricatedSObject {
 
     /** Set fabricated field values from an existing sObject */
     public sfab_FabricatedSObject set( SObject sObj ) {
-        boolean isSameType = sObj.getSObjectType().getDescribe().getName() == sType.getName();
+        boolean isSameType = sObj.getSObjectType() == sObjType;
         if (!isSameType) { throw new ParameterException('Attempted to set field values from sObject type '+sObj.getSObjectType().getDescribe().getName()+' which is not the same as the fabricated sObject type of '+sType.getName()); }
         set(sObj.getPopulatedFieldsAsMap());
         return this;
@@ -297,7 +299,7 @@ public virtual class sfab_FabricatedSObject {
     *
     * @return SObject - The built SObject
     */
-    public SObject toSObject() {
+    public SObject toSObject() { // TODO add new method with parameter is use cached ?
         SObject newObject = (SObject)JSON.deserialize(JSON.serialize(serialize()), sType);
         postBuildProcess( newObject );
         return newObject;
@@ -487,11 +489,30 @@ public virtual class sfab_FabricatedSObject {
         return ((sfab_ChildRelationshipNode)getNode( relationshipName ));
     }
 
+    /** helper method  */
+    @testVisible private Id toFakeId(string textChars, Integer index) { // TODO test
+
+        return sObjType.getDescribe().getKeyPrefix() 
+            + (   (String.isBlank(textChars) ? '' : textChars.replaceAll(' ', ''))
+                + (index == null ? '' : String.valueOf(index))
+                )
+                .left(12)
+                .leftPad(12, '0');
+    }
+
+    /** Shortcut method to set a fake Id that has the correct 3 character prefix and can be cast to an Id */
+    public sfab_FabricatedSObject setFakeId(string textChars, Integer index) { // TODO test
+        set('Id', toFakeId(textChars, index));
+        return this;
+    }
+
+    /** Shortcut method to return set field value. Warning will throw if not a valid Id. */
+    public Id getIdAsId() { return (Id)getFieldValue('Id'); } // TODO test
+
     /**
     * Made public for use it setting Ids | Craig 2021-07-24
     * Gets the field value of the specified field.
     */
-    @testVisible
     public Object getFieldValue( String fieldName ) {
         return getFieldNode( fieldName )?.getValue();
     }
