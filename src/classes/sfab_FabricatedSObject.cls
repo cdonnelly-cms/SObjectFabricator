@@ -19,6 +19,8 @@ public virtual class sfab_FabricatedSObject {
 
     public class NodeNotSetException extends Exception {}
 
+    public class ParameterException extends Exception {}
+
     /**
     * Constructs a FabricatedSObject of the given type.
     *
@@ -168,6 +170,14 @@ public virtual class sfab_FabricatedSObject {
         for ( Schema.SObjectField field : fields.keySet() ) {
             setField( field, fields.get( field ) );
         }
+        return this;
+    }
+
+    /** Set fabricated field values from an existing sObject */
+    public sfab_FabricatedSObject set( SObject sObj ) {
+        boolean isSameType = sObj.getSObjectType().getDescribe().getName() == sType.getName();
+        if (!isSameType) { throw new ParameterException('Attempted to set field values from sObject type '+sObj.getSObjectType().getDescribe().getName()+' which is not the same as the fabricated sObject type of '+sType.getName()); }
+        set(sObj.getPopulatedFieldsAsMap());
         return this;
     }
 

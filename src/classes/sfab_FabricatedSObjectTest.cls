@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 private class sfab_FabricatedSObjectTest {
     @isTest
@@ -118,6 +119,29 @@ private class sfab_FabricatedSObjectTest {
 
         System.assertEquals( 'Id-1', fabricatedSObject.getFieldValue( 'Id' ) );
         System.assertEquals( 'Foo', fabricatedSObject.getFieldValue( 'Name' ) );
+    }
+
+    @isTest static void set_whenSObject_expectFieldsAddedToNodes() {
+        // prepare
+        sfab_FabricatedSObject fabricatedSObject = new sfab_FabricatedSObject(Account.class);
+        Account sObj = new Account ( Name = 'Foo' );
+        // act
+        fabricatedSObject.set(sObj);
+        // assert
+        System.assertEquals( 1, fabricatedSObject.getNumberOfNodes());
+        System.assertEquals( 'Foo', fabricatedSObject.getFieldValue( 'Name' ) );
+    }
+
+    @isTest static void set_whenSObjectOfDifferentType_expectParameterException() {
+        // prepare
+        sfab_FabricatedSObject fabricatedSObject = new sfab_FabricatedSObject(Account.class);
+        Opportunity sObj = new Opportunity ( Name = 'Foo' );
+        Exception ex;
+        // act
+        try { fabricatedSObject.set(sObj);
+        } catch (Exception e) { ex = e; }
+        // assert
+        System.assertNotEquals(null, ex, 'Exception should have been thrown attempting to populate fabricated Account fields from an Opportunity');
     }
 
     @isTest
