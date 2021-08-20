@@ -9,7 +9,7 @@ An SObject fabrication API to reduce database interactions and dependencies on t
 - added public methods:
   - public sfab_FabricatedSObject set( SObject sObj )
   - public sfab_FabricatedSObject setFakeId( string textChars, Integer index)
-  - public Id getIdAsId()
+  - public Id getId()
 
 e.g.
 
@@ -22,7 +22,7 @@ System.assertEquals( 'Foo', fabricatedSObject.getFieldValue( 'Name' ) );
 ```java
 sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
 fab.setFakeId('N', 1);
-System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
+System.AssertEquals('0030000000000N1', fab.getId(), 'unexpected contact id');
 ````
 
 ## Motivation

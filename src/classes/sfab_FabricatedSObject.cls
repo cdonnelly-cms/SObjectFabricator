@@ -511,7 +511,7 @@ public virtual class sfab_FabricatedSObject {
     }
 
     /** Shortcut method to return set field value. Warning will throw if not a valid Id. */
-    public Id getIdAsId() { return (Id)getFieldValue('Id'); }
+    public Id getId() { return (Id)getFieldValue('Id'); }
 
     /**
     * Made public for use it setting Ids | Craig 2021-07-24

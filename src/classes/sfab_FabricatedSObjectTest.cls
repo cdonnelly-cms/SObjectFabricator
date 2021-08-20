@@ -295,7 +295,7 @@ private class sfab_FabricatedSObjectTest {
     @isTest private static void setGetId_test() {
         sfab_FabricatedSObject fab = new sfab_FabricatedSObject(Contact.class);
         fab.setFakeId('N', 1);
-        System.AssertEquals('0030000000000N1', fab.getIdAsId(), 'unexpected contact id');
+        System.AssertEquals('0030000000000N1', fab.getId(), 'unexpected contact id');
     }
 
 
